@@ -11,7 +11,7 @@ COPY RestApi/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Flask application code into the container
-COPY app.py .
+COPY RestApi/app.py .
 
 # Expose the port that the Flask application will run on
 EXPOSE 5000
