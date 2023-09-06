@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./RestApi   # Specify the relative path to the directory
+    ports:
+      - "8001:5000"
