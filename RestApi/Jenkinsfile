@@ -1,0 +1,34 @@
+pipeline {
+    agent { label 'Agent-1' }
+    stages {
+        stage('Code Clone') {
+            steps {
+                git url: 'https://github.com/Manav2626/RestApi_HelloWorld.git', branch: 'main'
+                echo 'Code Cloned'
+            }
+        }
+        stage('Code Build') {
+            steps {
+                echo 'Code Build...'
+                sh 'cd RestApi && docker build -t manavrajani/api-cicd:latest -f Dockerfile .'
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                echo 'Login...'
+                withCredentials([usernamePassword(credentialsId:'dockerhub',passwordVariable:'dockerHubPassword',usernameVariable:'dockerHubUsername')]){
+                    sh "cd RestApi && docker login -u ${env.dockerHubUsername} -p ${env.dockerHubPassword}"
+                    sh "cd RestApi && docker push manavrajani/api-cicd:latest"
+                }
+                echo 'Login Success...'
+            }
+}
+        stage('Code Deploy') {
+            steps {
+                sh 'cd RestApi && docker-compose down'
+                sh 'cd RestApi && docker-compose up -d --no-deps --build'
+                echo 'Code Deployed....'
+            }
+        }
+    }
+}
