@@ -4,4 +4,5 @@ services:
     # image: manavrajani/api-cicd:latest (use this and remove below index image)
     image: manavrajani/index:latest
     ports:
-      - "8001:5000"
+      # - "8001:5000"
+      - "8001:80"
