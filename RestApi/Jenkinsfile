@@ -13,16 +13,16 @@ pipeline {
                 sh 'cd RestApi && docker build -t manavrajani/api-cicd:latest -f Dockerfile .'
             }
         }
-        stage('Docker Login') {
-            steps {
-                echo 'Login...'
-                withCredentials([usernamePassword(credentialsId:'dockerhub',passwordVariable:'dockerHubPassword',usernameVariable:'dockerHubUsername')]){
-                    sh "cd RestApi && docker login -u ${env.dockerHubUsername} -p ${env.dockerHubPassword}"
-                    sh "cd RestApi && docker push manavrajani/api-cicd:latest"
-                }
-                echo 'Login Success...'
-            }
-}
+//         stage('Docker Login') {
+//             steps {
+//                 echo 'Login...'
+//                 withCredentials([usernamePassword(credentialsId:'dockerhub',passwordVariable:'dockerHubPassword',usernameVariable:'dockerHubUsername')]){
+//                     sh "cd RestApi && docker login -u ${env.dockerHubUsername} -p ${env.dockerHubPassword}"
+//                     sh "cd RestApi && docker push manavrajani/api-cicd:latest"
+//                 }
+//                 echo 'Login Success...'
+//             }
+// }
         stage('Code Deploy') {
             steps {
                 sh 'cd RestApi && docker-compose down'
